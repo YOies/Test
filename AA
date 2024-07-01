@@ -1,4 +1,4 @@
---a
+--v
 repeat wait() until game:IsLoaded()
 repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("HUD")
 task.wait(5)
@@ -955,15 +955,8 @@ AutoDoActionToggle:OnChanged(function()
  task.wait(.1)
         pcall(function()
           if game.Players.LocalPlayer.PlayerGui:FindFirstChild("VictoryScreenNew") then 
-            if userInputService.KeyboardEnabled and  userInputService.MouseEnabled then 
-                wait(1)
-                local imageButton = game.Players.LocalPlayer.PlayerGui.VictoryScreenNew.DecisionFrame.Buttons[getgenv().ActionAfterFinishStory]
-                imageButton.Size = UDim2.new(999999999, 999999999, 999999999, 999999999)
-                imageButton.BackgroundTransparency  = 0
-                wait(1)
-                     mouse1click()
-                
-            elseif userInputService.TouchEnabled then 
+            local Mobile = game.Players.LocalPlayer.PlayerGui:FindFirstChild("TouchGui")
+                     if Mobile then 
 local Signals = {"Activated", "MouseButton1Down", "MouseButton2Down", "MouseButton1Click", "MouseButton2Click"}
 
 for _,v in pairs(game.Players.LocalPlayer.PlayerGui.VictoryScreenNew.DecisionFrame.Buttons:GetChildren()) do
@@ -972,8 +965,15 @@ for _,v in pairs(game.Players.LocalPlayer.PlayerGui.VictoryScreenNew.DecisionFra
             firesignal(v[Signal])
         end
     end
-end  
 end
+else
+wait(1)
+local imageButton = game.Players.LocalPlayer.PlayerGui.VictoryScreenNew.DecisionFrame.Buttons[getgenv().ActionAfterFinishStory]
+imageButton.Size = UDim2.new(999999999, 999999999, 999999999, 999999999)
+imageButton.BackgroundTransparency  = 0
+wait(1)
+     mouse1click()
+end 
 end 
         end)
         if  Options.AutoDoAction.Value == false then 
@@ -1064,10 +1064,10 @@ HideUIToggle:OnChanged(function()
     while Options.AutoHideUI.Value == true do  
  task.wait(.1)
     for _, v in pairs(game.CoreGui:GetChildren()) do 
-        if v:IsA("ScreenGui") and v:FindFirstChild("Frame") and v.Enabled == true then 
+        if v:IsA("ScreenGui") and v.Name == "ScreenGui" and v:FindFirstChild("Frame") and v.Enabled == true then 
             game:GetService("VirtualInputManager"):SendKeyEvent(true, "LeftControl", false, game.Players.LocalPlayer)
         end 
-    end
+    end 
     wait()
     break
 end 

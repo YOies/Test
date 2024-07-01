@@ -1,4 +1,4 @@
---v
+--c
 repeat wait() until game:IsLoaded()
 repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("HUD")
 task.wait(5)
@@ -212,7 +212,7 @@ else
     })
 end
 
-getgenv().itemstosnipe = {"Orange Candy", "Red Candy", "Pink Candy", "Blue Candy","Yellow Candy","Green Candy"}
+getgenv().itemstosnipe = {"Orange Candy", "Red Candy", "Pink Candy", "Blue Candy","Yellow Candy","Green Candy","Super Lucky Potion","Normal Lucky Potion","Mega Lucky Potion","Coins","Gems","Costume Token","Spirit Orb","Soul Ticket","Match Speed Token"}
 for _,v in pairs(game:GetService("ReplicatedStorage").Assets.Cosmetics:GetChildren()) do 
     if v:IsA("MeshPart") then 
        table.insert(itemstosnipe,v.Name)

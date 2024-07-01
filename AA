@@ -1,3 +1,4 @@
+--a
 repeat wait() until game:IsLoaded()
 repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("HUD")
 task.wait(5)
@@ -24,17 +25,6 @@ getgenv().MultiRewardChallenges = {}
 getgenv().ActualNameToSnipe = {}
 getgenv().WantedNotify = {} -- Everything or Multiple items | for webhook
      
- if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("OptionPrompt") then 
-     local Signals = {"Activated", "MouseButton1Down", "MouseButton2Down", "MouseButton1Click", "MouseButton2Click"}
-
-     for _,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.OptionPrompt.Prompt:GetChildren()) do
-         if v:IsA("ImageButton") and v.Name == "Yes" then
-             for i,Signal in pairs(Signals) do
-                 firesignal(v[Signal])
-             end
-         end
-     end  
- end 
 
 
 if game.PlaceId == 6068961298 then 
@@ -674,7 +664,8 @@ end)
 
 WebhookToggle:OnChanged(function()
     while Options.WebhookStory.Value == true do  
-        task.wait(.5)
+        task.wait(.1)
+        pcall(function()
             function SendMessage(url, message)
                 local http = game:GetService("HttpService")
                 local headers = {
@@ -718,7 +709,7 @@ WebhookToggle:OnChanged(function()
                     Body = body
                 })
             end
-            if game.Players.LocalPlayer.PlayerGui:WaitForChild("VictoryScreenNew").Enabled == true and Options.WebhookStory.Value == true then 
+            if game.Players.LocalPlayer.PlayerGui:FindFirstChild("VictoryScreenNew").Enabled == true and Options.WebhookStory.Value == true then 
             local url = getgenv().WebhookUrlLink
             local unitsInfo = {}
             local items = {}
@@ -838,6 +829,7 @@ WebhookToggle:OnChanged(function()
                 end 
             end  
         end 
+    end)
     end
 
 end)

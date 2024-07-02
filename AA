@@ -1,4 +1,4 @@
---c
+print("L-HUB v3 executed! | Made by .L. and DatNguyen")
 repeat wait() until game:IsLoaded()
 repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("HUD")
 task.wait(5)
@@ -8,6 +8,21 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
    wait(3)
    vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
 end)
+
+local thumbsDownEmoji = utf8.char(0x1F44E)
+local noEntryEmoji = utf8.char(0x1F6AB)
+local farmerEmoji = utf8.char(0x1F468, 0x200D, 0x1F33D)
+local repeatEmoji = utf8.char(0x1F501)
+local signalStrengthEmoji = utf8.char(0x1F4F6)
+local doorEmoji = utf8.char(0x1F6AA)
+local repeatSingleEmoji = utf8.char(0x1F502)
+local clockwiseVerticalArrowsEmoji = utf8.char(0x1F503) 
+local timerClockEmoji = utf8.char(0x23F2)
+local axeEmoji = utf8.char(0x1FA93)
+local crossedSwordsEmoji = utf8.char(0x2694)
+local rocketEmoji = utf8.char(0x1F680)
+local computerMouseEmoji = utf8.char(0x1F5B1)
+local moneyBagEmoji = utf8.char(0x1F4B0)
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
@@ -290,6 +305,7 @@ local AutoSnipeToggle = Tabs.Summon:AddToggle("AutoSnipe", {Title = "Auto Snipe 
 
 local HideToggle = Tabs.Miscs:AddToggle("AutoHide", {Title = "Protect Mode [ Client Side ]", Default = false })
 local HideUIToggle = Tabs.Miscs:AddToggle("AutoHideUI", {Title = "Auto Hide UI", Default = false })
+local FpsBoostToggle = Tabs.Miscs:AddToggle("FpsBoost", {Title = "Auto Fps Boost", Default = false })
 local DailyToggle = Tabs.Miscs:AddToggle("AutoDaily", {Title = "Auto Claim Daily Rewards", Default = false })
 Tabs.Miscs:AddButton({
     Title = "Copy Discord Server Invite [Press Ctrl+V After Click]",
@@ -316,82 +332,9 @@ Tabs.Miscs:AddButton({
     end
 })
 
-Tabs.Miscs:AddButton({
-    Title = "Fps Boost",
-    Description = "",
-    Callback = function()
-local decalsyeeted = true -- Leaving this on makes games look shitty but the fps goes up by at least 20.
-local g = game
-local w = g.Workspace
-local l = g.Lighting
-local t = w.Terrain
-t.WaterWaveSize = 0
-t.WaterWaveSpeed = 0
-t.WaterReflectance = 0
-t.WaterTransparency = 0
-l.GlobalShadows = 0
-l.FogEnd = 9e9
-l.Brightness = 0
-settings().Rendering.QualityLevel = "Level01"
-for i, v in pairs(w:GetDescendants()) do
-    if v:IsA("BasePart") and not v:IsA("MeshPart") then
-        v.Material = "Plastic"
-        v.Reflectance = 0
-    elseif (v:IsA("Decal") or v:IsA("Texture")) and decalsyeeted then
-        v.Transparency = 1
-    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
-        v.Lifetime = NumberRange.new(0)
-    elseif v:IsA("Explosion") then
-        v.BlastPressure = 1
-        v.BlastRadius = 1
-    elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
-        v.Enabled = false
-    elseif v:IsA("MeshPart") and decalsyeeted then
-        v.Material = "Plastic"
-        v.Reflectance = 0
-        v.TextureID = 10385902758728957
-    elseif v:IsA("SpecialMesh") and decalsyeeted  then
-        v.TextureId=0
-    elseif v:IsA("ShirtGraphic") and decalsyeeted then
-        v.Graphic=0
-    elseif (v:IsA("Shirt") or v:IsA("Pants")) and decalsyeeted then
-        v[v.ClassName.."Template"]=0
-    end
-end
-for i = 1,#l:GetChildren() do
-    e=l:GetChildren()[i]
-    if e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect") then
-        e.Enabled = false
-    end
-end
-w.DescendantAdded:Connect(function(v)
-    wait()--prevent errors and shit
-   if v:IsA("BasePart") and not v:IsA("MeshPart") then
-        v.Material = "Plastic"
-        v.Reflectance = 0
-    elseif v:IsA("Decal") or v:IsA("Texture") and decalsyeeted then
-        v.Transparency = 1
-    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
-        v.Lifetime = NumberRange.new(0)
-    elseif v:IsA("Explosion") then
-        v.BlastPressure = 1
-        v.BlastRadius = 1
-    elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
-        v.Enabled = false
-    elseif v:IsA("MeshPart") and decalsyeeted then
-        v.Material = "Plastic"
-        v.Reflectance = 0
-        v.TextureID = 10385902758728957
-    elseif v:IsA("SpecialMesh") and decalsyeeted then
-        v.TextureId=0
-    elseif v:IsA("ShirtGraphic") and decalsyeeted then
-        v.ShirtGraphic=0
-    elseif (v:IsA("Shirt") or v:IsA("Pants")) and decalsyeeted then
-        v[v.ClassName.."Template"]=0
-    end
-end)
-end
-})
+
+
+
 
 StoryName:OnChanged(function(Value)
     getgenv().WorldName = Value
@@ -497,6 +440,87 @@ end
           end
         end 
     end)
+
+    local FpsRun = false
+    FpsBoostToggle:OnChanged(function()
+        if Options.FpsBoost.Value == true and not FpsRun then  
+            FpsRun = true
+            task.wait(.1)
+            pcall(function()
+    local decalsyeeted = true -- Leaving this on makes games look shitty but the fps goes up by at least 20.
+local g = game
+local w = g.Workspace
+local l = g.Lighting
+local t = w.Terrain
+t.WaterWaveSize = 0
+t.WaterWaveSpeed = 0
+t.WaterReflectance = 0
+t.WaterTransparency = 0
+l.GlobalShadows = 0
+l.FogEnd = 9e9
+l.Brightness = 0
+settings().Rendering.QualityLevel = "Level01"
+for i, v in pairs(w:GetDescendants()) do
+    if v:IsA("BasePart") and not v:IsA("MeshPart") then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+    elseif (v:IsA("Decal") or v:IsA("Texture")) and decalsyeeted then
+        v.Transparency = 1
+    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+        v.Lifetime = NumberRange.new(0)
+    elseif v:IsA("Explosion") then
+        v.BlastPressure = 1
+        v.BlastRadius = 1
+    elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
+        v.Enabled = false
+    elseif v:IsA("MeshPart") and decalsyeeted then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+        v.TextureID = 10385902758728957
+    elseif v:IsA("SpecialMesh") and decalsyeeted  then
+        v.TextureId=0
+    elseif v:IsA("ShirtGraphic") and decalsyeeted then
+        v.Graphic=0
+    elseif (v:IsA("Shirt") or v:IsA("Pants")) and decalsyeeted then
+        v[v.ClassName.."Template"]=0
+    end
+end
+for i = 1,#l:GetChildren() do
+    e=l:GetChildren()[i]
+    if e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect") then
+        e.Enabled = false
+    end
+end
+w.DescendantAdded:Connect(function(v)
+    wait()--prevent errors and shit
+   if v:IsA("BasePart") and not v:IsA("MeshPart") then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+    elseif v:IsA("Decal") or v:IsA("Texture") and decalsyeeted then
+        v.Transparency = 1
+    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+        v.Lifetime = NumberRange.new(0)
+    elseif v:IsA("Explosion") then
+        v.BlastPressure = 1
+        v.BlastRadius = 1
+    elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
+        v.Enabled = false
+    elseif v:IsA("MeshPart") and decalsyeeted then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+        v.TextureID = 10385902758728957
+    elseif v:IsA("SpecialMesh") and decalsyeeted then
+        v.TextureId=0
+    elseif v:IsA("ShirtGraphic") and decalsyeeted then
+        v.ShirtGraphic=0
+    elseif (v:IsA("Shirt") or v:IsA("Pants")) and decalsyeeted then
+        v[v.ClassName.."Template"]=0
+    end
+end)
+end)
+end
+end)
+
 
 MultiChallengeToggle:OnChanged(function()
     while Options.MultiChallengeAutoSave.Value == true do  
@@ -662,8 +686,12 @@ end)
 end
 end)
 
+
+local hasRun = false
+
 WebhookToggle:OnChanged(function()
-    while Options.WebhookStory.Value == true do  
+    if Options.WebhookStory.Value == true and not hasRun then  
+        hasRun = true
         task.wait(.1)
         pcall(function()
             function SendMessage(url, message)
@@ -709,130 +737,146 @@ WebhookToggle:OnChanged(function()
                     Body = body
                 })
             end
-            if game.Players.LocalPlayer.PlayerGui:FindFirstChild("VictoryScreenNew").Enabled == true and Options.WebhookStory.Value == true then 
-            local url = getgenv().WebhookUrlLink
-            local unitsInfo = {}
-            local items = {}
-            local ammount = {}
-            local totalitems = {}
-    
-            for i = 1, 4 do
-                local unitFrame = game.Players.LocalPlayer.PlayerGui:WaitForChild("VictoryScreenNew"):WaitForChild("Victory Screen"):WaitForChild("Gradient"):WaitForChild("Units"):WaitForChild(tostring(i))
-                if unitFrame then
-                    local unitModel = unitFrame:WaitForChild("ViewportFrame"):WaitForChild("WorldModel"):FindFirstChildWhichIsA("Model")
-                    local unitName = unitModel and unitModel.Name or ": Not Found or Dead"
-                    unitsInfo[#unitsInfo + 1] = "Unit" .. i .. ": " .. unitName .. " | Level: " .. unitFrame.Level.Text .. " | +EXP: " .. unitFrame.XP.Text
-                else
-                    unitsInfo[#unitsInfo + 1] = "Unit" .. i .. ": Not Found or Dead"
-                end
-            end
-            
-    
-            for i, v in pairs(game.Players.LocalPlayer.PlayerGui.VictoryScreenNew["Victory Screen"].ScrollingFrame:GetDescendants()) do 
-                if v:IsA("ImageButton") and v.Name ~= "Template" and v:FindFirstChild("Amount") then 
-                    table.insert(items, v.Name)
-                    table.insert(ammount, v.Amount.Text)
-                end
-            end
-    
-            for _, v in pairs(getgenv().WantedNotify) do 
-                for _, itemwant in pairs(items) do 
-                    if v == itemwant then 
-                        for i, total in pairs(game.Players.LocalPlayer.PlayerGui.Inventory.Inventory.Window.ScrollingFrame:GetDescendants()) do 
-                            if total:IsA("ImageButton") and total.Name == itemwant and total:FindFirstChild("Amount") then 
-                                table.insert(totalitems, total.Amount.Text)
-                            end 
-                        end
-    
-                        local rewardsList = {}
-                        for i = 1, #items do
-                            local item = items[i] or "Not Found Value"
-                            local amount = ammount[i] or "Not Found Value"
-                            local totalItem = totalitems[i] or "Not Found Value"
-                            table.insert(rewardsList, item .. " | " .. amount .. " | " .. totalItem)
-                        end
-    
-                        local embed = {
-                            ["title"] = "Anime Impact Item Notify",
-                            ["description"] = game:GetService("MarketplaceService"):GetProductInfo(6068961298).Name,
-                            ["color"] = 65280,
-                            ["fields"] = {
-                                {
-                                    ["name"] = "Rewards - Amount - Total:",
-                                    ["value"] = table.concat(rewardsList, "\n"),
-                                },
-                                {
-                                    ["name"] = "Units Info:",
-                                    ["value"] = table.concat(unitsInfo, "\n")
-                                },
-                                {
-                                    ["name"] = "Player Currency:",
-                                    ["value"] = "\nTotal Coins: " .. game.Players.LocalPlayer.PlayerGui.HUD.Menu.Resource.Coins.Coins.Text ..
-                                                "\nTotal Gems: " .. game.Players.LocalPlayer.PlayerGui.HUD.Menu.Resource.Gem.Gems.Text .. 
-                                                "\nCoins Dropped: " ..  game.Players.LocalPlayer.PlayerGui.VictoryScreenNew["Victory Screen"].Resource.Coins.Coins.Text ..  
-                                                "\nGems Dropped: " .. game.Players.LocalPlayer.PlayerGui.VictoryScreenNew["Victory Screen"].Resource.Gem.Gems.Text,
-                                },
-                            },
-                            ["footer"] = {
-                                ["text"] = "DatNguyen on top."
-                            }
-                        }
-    
-                        SendMessageEMBED(url, embed)
-                        Options.WebhookStory:SetValue(false)
-                        break
-                    elseif v == "Everything" then
-                        for i, total in pairs(game.Players.LocalPlayer.PlayerGui.Inventory.Inventory.Window.ScrollingFrame:GetDescendants()) do 
-                            if total:IsA("ImageButton") and total.Name == itemwant and total:FindFirstChild("Amount") then 
-                                table.insert(totalitems, total.Amount.Text)
-                            end 
-                        end
-    
-                        local rewardsList = {}
-                        for i = 1, #items do
-                            local item = items[i] or "Not Found Value"
-                            local amount = ammount[i] or "Not Found Value"
-                            local totalItem = totalitems[i] or "Not Found Value"
-                            table.insert(rewardsList, item .. " | " .. amount .. " | " .. totalItem)
-                        end
-    
-                        local embed = {
-                            ["title"] = "Anime Impact Item Notify",
-                            ["description"] = game:GetService("MarketplaceService"):GetProductInfo(6068961298).Name,
-                            ["color"] = 65280,
-                            ["fields"] = {
-                                {
-                                    ["name"] = "Rewards - Amount - Total:",
-                                    ["value"] = table.concat(rewardsList, "\n"),
-                                },
-                                {
-                                    ["name"] = "Units Info:",
-                                    ["value"] = table.concat(unitsInfo, "\n")
-                                },
-                                {
-                                    ["name"] = "Player Currency:",
-                                    ["value"] = "\nTotal Coins: " .. game.Players.LocalPlayer.PlayerGui.HUD.Menu.Resource.Coins.Coins.Text ..
-                                                "\nTotal Gems: " .. game.Players.LocalPlayer.PlayerGui.HUD.Menu.Resource.Gem.Gems.Text .. 
-                                                "\nCoins Dropped: " ..  game.Players.LocalPlayer.PlayerGui.VictoryScreenNew["Victory Screen"].Resource.Coins.Coins.Text ..  
-                                                "\nGems Dropped: " .. game.Players.LocalPlayer.PlayerGui.VictoryScreenNew["Victory Screen"].Resource.Gem.Gems.Text,
-                                },
-                            },
-                            ["footer"] = {
-                                ["text"] = "DatNguyen on top."
-                            }
-                        }
-    
-                        SendMessageEMBED(url, embed)
-                        Options.WebhookStory:SetValue(false)
-                        break
-                    end
-                end 
-            end  
-        end 
-    end)
-    end
 
+            local playerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+            local victoryScreenNew = playerGui:WaitForChild("VictoryScreenNew")
+            if victoryScreenNew.Enabled == true and Options.WebhookStory.Value == true then 
+                local url = getgenv().WebhookUrlLink
+                local unitsInfo = {}
+                local inventoryItems = {}
+                local victoryItems = {}
+                local totalItems = {}
+
+                -- Fonction pour extraire les données d'un ScrollingFrame
+                local function extractItems(scrollingFrame)
+                    local items = {}
+                    for _, child in ipairs(scrollingFrame:GetChildren()) do
+                        if child:IsA("ImageButton") and child.Name ~= "Template" then
+                            local amountLabel = child:FindFirstChild("Amount")
+                            if amountLabel and amountLabel:IsA("TextLabel") then
+                                items[child.Name] = amountLabel.Text
+                            end
+                        end
+                    end
+                    return items
+                end
+
+                -- Extraire les items de l'inventaire et de l'écran de victoire
+                local player = game.Players.LocalPlayer
+                local inventoryScrollingFrame = player.PlayerGui.Inventory.Inventory.Window.ScrollingFrame
+                local victoryScrollingFrame = player.PlayerGui.VictoryScreenNew["Victory Screen"].ScrollingFrame
+
+                inventoryItems = extractItems(inventoryScrollingFrame)
+                victoryItems = extractItems(victoryScrollingFrame)
+
+                -- Fonction pour extraire le nombre sans le "x" à la fin
+                local function extractAmount(amountStr)
+                    return tonumber(amountStr:match("%d+"))
+                end
+
+                -- Déterminer si c'est une victoire ou une défaite
+                local winOrLoss = player.PlayerGui.VictoryScreenNew["Victory Screen"].WinOrLoss.Text
+                local outcome = winOrLoss  -- Utiliser directement le texte comme outcome
+
+                -- Construire la liste des récompenses
+                local rewardsList = {}
+                for name, amount in pairs(victoryItems) do
+                    local inventoryAmount = inventoryItems[name]
+                    local totalAmount
+                    if inventoryAmount then
+                        totalAmount = extractAmount(amount) + extractAmount(inventoryAmount)
+                        table.insert(rewardsList, outcome .. "  | " .. name .. " | Reward Amount: " .. amount .. " | Inventory: " .. inventoryAmount .. " | Total: " .. totalAmount)
+                    else
+                        totalAmount = extractAmount(amount)
+                        table.insert(rewardsList, outcome .. "  | " .. name .. " | Reward Amount: " .. amount .. " | Inventory: 0 | Total: " .. totalAmount)
+                    end
+                end
+
+                -- Extraire les informations des unités
+                for i = 1, 4 do
+                    local unitFrame = player.PlayerGui:WaitForChild("VictoryScreenNew"):WaitForChild("Victory Screen"):WaitForChild("Gradient"):WaitForChild("Units"):WaitForChild(tostring(i))
+                    if unitFrame then
+                        local unitModel = unitFrame:WaitForChild("ViewportFrame"):WaitForChild("WorldModel"):FindFirstChildWhichIsA("Model")
+                        local unitName = unitModel and unitModel.Name or ": Not Found Unit Display"
+                        unitsInfo[#unitsInfo + 1] = "Unit" .. i .. ": " .. unitName .. " | Level: " .. unitFrame.Level.Text .. " | +EXP: " .. unitFrame.XP.Text
+                    else
+                        unitsInfo[#unitsInfo + 1] = "Unit" .. i .. ": Not Found Unit Display"
+                    end
+                end
+
+                for _, v in pairs(getgenv().WantedNotify) do 
+                    for i, itemwant in pairs(victoryItems) do 
+                        if v == i then 
+                local embed = {
+                    ["title"] = "Anime Impact Item Notify." .. thumbsDownEmoji .. " L-HUB V3 " .. thumbsDownEmoji,
+                    ["description"] = game:GetService("MarketplaceService"):GetProductInfo(6068961298).Name,
+                    ["color"] = 65280,
+                    ["fields"] = {
+                        {
+                            ["name"] = "Rewards - Amount - Total:",
+                            ["value"] = table.concat(rewardsList, "\n"),
+                        },
+                        {
+                            ["name"] = "Units Info:",
+                            ["value"] = table.concat(unitsInfo, "\n")
+                        },
+                        {
+                            ["name"] = "Player Currency:",
+                            ["value"] = "\nTotal Coins: " .. player.PlayerGui.HUD.Menu.Resource.Coins.Coins.Text ..
+                                        "\nTotal Gems: " .. player.PlayerGui.HUD.Menu.Resource.Gem.Gems.Text .. 
+                                        "\nCoins Dropped: " ..  player.PlayerGui.VictoryScreenNew["Victory Screen"].Resource.Coins.Coins.Text ..  
+                                        "\nGems Dropped: " .. player.PlayerGui.VictoryScreenNew["Victory Screen"].Resource.Gem.Gems.Text,
+                        },
+                    },
+                    ["footer"] = {
+                        ["text"] = "DatNguyen on top." .. thumbsDownEmoji .. " L-HUB V3 " .. thumbsDownEmoji,
+                    }
+                }
+
+                SendMessageEMBED(url, embed)
+            elseif v == "Everything" then 
+                 if next(victoryItems) == nil then 
+                    
+                 else
+                local embed = {
+                    ["title"] = "Anime Impact Item Notify." .. thumbsDownEmoji .. " L-HUB V3 " .. thumbsDownEmoji,
+                    ["description"] = game:GetService("MarketplaceService"):GetProductInfo(6068961298).Name,
+                    ["color"] = 65280,
+                    ["fields"] = {
+                        {
+                            ["name"] = "Rewards - Amount - Total:",
+                            ["value"] = table.concat(rewardsList, "\n"),
+                        },
+                        {
+                            ["name"] = "Units Info:",
+                            ["value"] = table.concat(unitsInfo, "\n")
+                        },
+                        {
+                            ["name"] = "Player Currency:",
+                            ["value"] = "\nTotal Coins: " .. player.PlayerGui.HUD.Menu.Resource.Coins.Coins.Text ..
+                                        "\nTotal Gems: " .. player.PlayerGui.HUD.Menu.Resource.Gem.Gems.Text .. 
+                                        "\nCoins Dropped: " ..  player.PlayerGui.VictoryScreenNew["Victory Screen"].Resource.Coins.Coins.Text ..  
+                                        "\nGems Dropped: " .. player.PlayerGui.VictoryScreenNew["Victory Screen"].Resource.Gem.Gems.Text,
+                        },
+                    },
+                    ["footer"] = {
+                        ["text"] = "DatNguyen on top." .. thumbsDownEmoji .. " L-HUB V3 " .. thumbsDownEmoji,
+                    }
+                }
+
+                SendMessageEMBED(url, embed)
+            end 
+        end 
+    end
+    end 
+end 
+
+        end)
+    end
 end)
+
+
+
 
 
 AutoJoinToggle:OnChanged(function()
@@ -1117,8 +1161,8 @@ SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
 SaveManager:IgnoreThemeSettings()
 SaveManager:SetIgnoreIndexes({})
-InterfaceManager:SetFolder("DatNguyenAutoSaveFunctions")
-SaveManager:SetFolder("DatNguyenAutoSaveFunctions")
+InterfaceManager:SetFolder("L-HUBAutoSaveFunctions")
+SaveManager:SetFolder("L-HUBAutoSaveFunctions")
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
 Window:SelectTab(1)

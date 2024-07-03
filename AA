@@ -1,3 +1,7 @@
+    -- \\ Dont Obfuscate   getgenv().PremiumKey // --
+
+
+    -- \\ Obfuscate Everything Under This // -- 
 print("L-HUB v3 executed! | Made by .L. and DatNguyen")
 repeat wait() until game:IsLoaded()
 repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("HUD")
@@ -30,6 +34,51 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 local gameName = game:GetService("MarketplaceService"):GetProductInfo(6068961298).Name
 
 local userInputService = game:GetService("UserInputService")
+
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextButton = Instance.new("TextButton")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.274711221, 0, 0.26566416, 0)
+Frame.Size = UDim2.new(0, 66, 0, 50)
+
+TextButton.Parent = Frame
+TextButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.BorderSizePixel = 0
+TextButton.Position = UDim2.new(-0.0131674102, 0, -0.0143359378, 0)
+TextButton.Size = UDim2.new(0, 66, 0, 50)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = "Open/Close"
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextSize = 14.000
+
+-- Scripts:
+
+local function SJSY_fake_script() -- TextButton.LocalScript 
+	local script = Instance.new('LocalScript', TextButton)
+
+	local button = script.Parent
+	
+	button.MouseButton1Click:Connect(function()
+		game:GetService("VirtualInputManager"):SendKeyEvent(true, "LeftControl", false, game.Players.LocalPlayer)
+	end)
+	
+end
+coroutine.wrap(SJSY_fake_script)()
 
 getgenv().Status = ""
 getgenv().NumberLeave = ""
@@ -72,6 +121,19 @@ local Tabs = {
 local Options = Fluent.Options
 
 do
+
+    local args = {
+        [1] = "ManageShuttle",
+        [2] = {
+            ["LaunchShuttle"] = true,
+            ["WorldType"] = "Shinobi Forest",
+            ["Level"] = "Infinite"
+        }
+    }
+    
+    game:GetService("Players").LocalPlayer:WaitForChild("Input"):FireServer(unpack(args))
+
+    
     Fluent:Notify({
         Title = "Server Status",
         Content = "Game ID | Total Players | Place",
@@ -88,9 +150,9 @@ do
 
     local StoryLevel = Tabs.Main:AddDropdown("LevelStory", {
         Title = "Select Level:",
-        Values = {1,2,3,4,5,6},
+        Values = {"1","2","3","4","5","6","Infinite"},
         Multi = false,
-        Default = 1,
+        Default = "1",
     })
 
     local StoryDifficulty = Tabs.Main:AddDropdown("DifficultyStory", {
@@ -112,15 +174,15 @@ do
     local AutoJoinToggle = Tabs.Main:AddToggle("AutoJoin", {Title = "Auto Join Selected Story", Default = false })
     local AutoDoActionToggle = Tabs.Main:AddToggle("AutoDoAction", {Title = "Auto Do Action After Completion", Default = false })
     Tabs.Main:AddParagraph({
-        Title = "Infinite Settings",
-        Content = "Settings Available In Impact Battles | Current Place: " .. getgenv().Status
+        Title = "Story & Infinite Settings",
+        Content = "Settings Available In Impact Battles | Current Place: " .. getgenv().Status .. "\nIf your current wave is higher than the entered wave, it will auto leave."
     })
 
     local Input = Tabs.Main:AddInput("WaveNumber", {
         Title = "Enter Wave To Leave: [WAVE:X]",
-        Default = "WAVE:20",
+        Default = "20",
         Placeholder = "",
-        Numeric = false, -- Only allows numbers
+        Numeric = true, -- Only allows numbers
         Finished = true, -- Only calls callback when you press enter
         Callback = function(Value)
           getgenv().NumberLeave = Value
@@ -304,8 +366,11 @@ local WantUnitSelectDP = Tabs.Summon:AddDropdown("UnitWantedDP", {
 local AutoSnipeToggle = Tabs.Summon:AddToggle("AutoSnipe", {Title = "Auto Snipe Selected Unit", Default = false })
 
 local HideToggle = Tabs.Miscs:AddToggle("AutoHide", {Title = "Protect Mode [ Client Side ]", Default = false })
+local AutoLoadToggle = Tabs.Miscs:AddToggle("AutoLoad", {Title = "Auto Execute Upon Server Hop", Default = false })
+local ClaimQuestToggle = Tabs.Miscs:AddToggle("AutoClaimQuest", {Title = "Auto Claim All Missions / Quests", Default = false })
 local HideUIToggle = Tabs.Miscs:AddToggle("AutoHideUI", {Title = "Auto Hide UI", Default = false })
 local FpsBoostToggle = Tabs.Miscs:AddToggle("FpsBoost", {Title = "Auto Fps Boost", Default = false })
+local Set3DRenderToggle = Tabs.Miscs:AddToggle("Set3DRender", {Title = "Auto White Screen", Default = false })
 local DailyToggle = Tabs.Miscs:AddToggle("AutoDaily", {Title = "Auto Claim Daily Rewards", Default = false })
 Tabs.Miscs:AddButton({
     Title = "Copy Discord Server Invite [Press Ctrl+V After Click]",
@@ -390,6 +455,14 @@ SelectItemWebhookDP:OnChanged(function(Value)
     print("ItemWebhookNotify changed:", table.concat(getgenv().WantedNotify, ","))
     
 end)
+
+Set3DRenderToggle:OnChanged(function()
+if Options.Set3DRender.Value == true then 
+game:GetService("RunService"):Set3dRenderingEnabled(false)
+else
+    game:GetService("RunService"):Set3dRenderingEnabled(true)
+end 
+end) 
 
 TimeShopSniperToggle:OnChanged(function()
     while Options.SniperTimeShop.Value == true do  
@@ -616,6 +689,28 @@ MultiChallengeToggle:OnChanged(function()
             end 
         end)
 
+
+        ClaimQuestToggle:OnChanged(function()
+            while Options.AutoClaimQuest.Value == true do  
+                task.wait(.5)
+                 pcall(function()
+                    for _,v in pairs(game.Players.LocalPlayer.PlayerGui:FindFirstChild("Missions").Missions.Window.ScrollingFrame:GetDescendants()) do
+                        if v:IsA("Frame") and v.Name ~= "Template" and v:FindFirstChild("Complete") and v.Complete.Visible == true then 
+                           local args = {
+                      [1] = "CompleteQuest",
+                      [2] = {
+                          ["MissionName"] = v.Name
+                      }
+                  }
+                  
+                  game:GetService("Players").LocalPlayer:WaitForChild("Input"):FireServer(unpack(args))
+                        end 
+                        end 
+
+                 end)
+                 end 
+                 end)
+
 AutoSnipeToggle:OnChanged(function()
     while Options.AutoSnipe.Value == true do  
         task.wait(.5)
@@ -686,6 +781,25 @@ end)
 end
 end)
 
+local hasLoad = false
+
+AutoLoadToggle:OnChanged(function()
+    if Options.AutoLoad.Value == true and not hasLoad then  
+        hasLoad = true
+  task.wait(.1)
+queue_on_teleport([[
+loadstring(game:HttpGet("https://raw.githubusercontent.com/YOies/Test/main/AA"))()
+]])
+
+Fluent:Notify({
+    Title = "Auto Load Upon Execute!",
+    Content = "Successfully.",
+    SubContent = "Script will load when you rejoin / server hop.", -- Optional
+    Duration = 10 
+})
+
+    end 
+end)
 
 local hasRun = false
 
@@ -827,6 +941,10 @@ WebhookToggle:OnChanged(function()
                                         "\nCoins Dropped: " ..  player.PlayerGui.VictoryScreenNew["Victory Screen"].Resource.Coins.Coins.Text ..  
                                         "\nGems Dropped: " .. player.PlayerGui.VictoryScreenNew["Victory Screen"].Resource.Gem.Gems.Text,
                         },
+                        {
+                            ["name"] = "Map Info:",
+                            ["value"] = game.Players.LocalPlayer.PlayerGui.VictoryScreenNew["Victory Screen"]["Level Name"].Text .. "\n" .. game.Players.LocalPlayer.PlayerGui.VictoryScreenNew["Victory Screen"].TotalTime.Text
+                        },
                     },
                     ["footer"] = {
                         ["text"] = "DatNguyen on top." .. thumbsDownEmoji .. " L-HUB V3 " .. thumbsDownEmoji,
@@ -857,6 +975,10 @@ WebhookToggle:OnChanged(function()
                                         "\nTotal Gems: " .. player.PlayerGui.HUD.Menu.Resource.Gem.Gems.Text .. 
                                         "\nCoins Dropped: " ..  player.PlayerGui.VictoryScreenNew["Victory Screen"].Resource.Coins.Coins.Text ..  
                                         "\nGems Dropped: " .. player.PlayerGui.VictoryScreenNew["Victory Screen"].Resource.Gem.Gems.Text,
+                        },
+                        {
+                            ["name"] = "Map Info:",
+                            ["value"] = game.Players.LocalPlayer.PlayerGui.VictoryScreenNew["Victory Screen"]["Level Name"].Text .. "\n" .. game.Players.LocalPlayer.PlayerGui.VictoryScreenNew["Victory Screen"].TotalTime.Text
                         },
                     },
                     ["footer"] = {
@@ -1030,7 +1152,10 @@ AutoLeaveToggle:OnChanged(function()
     while Options.AutoLeave.Value == true do  
  task.wait(.1)
         pcall(function()
-         if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("BattleHUD").ELFrame.WaveNum.Text == getgenv().NumberLeave then 
+
+local waveNumText = game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("BattleHUD").ELFrame.WaveNum.Text
+local waveNum = tonumber(string.match(waveNumText, "%d+"))
+         if game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("BattleHUD").ELFrame.WaveNum.Text == "WAVE:" .. tostring(getgenv().NumberLeave) or waveNum > tonumber(getgenv().NumberLeave)  then 
             local args = {
                 [1] = "quitinfinite"
             }

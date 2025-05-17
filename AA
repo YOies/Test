@@ -14,7 +14,6 @@ task.spawn(function()
 
      while task.wait(.5) do 
             game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Ready"):FireServer()
-game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("ChangeGameSpeed"):FireServer(2)
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Replay"):FireServer()
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CloseVictoryFrame"):FireServer()
 

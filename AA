@@ -1,216 +1,70 @@
-local potions  =  {}
-for i, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.PotionInventory.Items:GetChildren()) do
-    if v:IsA("Frame") then
-        local text = v.Name
-        local value = string.match(text, "([^:]+):")
-        if value then
-            print("Value before colon: ", value)
-            table.insert(potions,value)
-        end
-    end
-end
 
-local vu = game:GetService("VirtualUser")
-game:GetService("Players").LocalPlayer.Idled:connect(function()
-   vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-   wait(3)
-   vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+ --for dumb crazy
+ 
+game:GetService("Players").LocalPlayer.Idled:Connect(function()
+    local vu = game:GetService("VirtualUser")
+    vu:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+    task.wait(1)
+    vu:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 end)
 
 
-local gameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
-local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
-
-local Window = Fluent:CreateWindow({
-    Title = "Alucard Private | " .. gameName,
-    SubTitle = "by Alucard",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
-    Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
-})
+task.spawn(function()
 
 
-local Tabs = {
-    Main = Window:AddTab({ Title = "Main", Icon = "" }),
-    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+     while task.wait(.5) do 
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Ready"):FireServer()
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("ChangeGameSpeed"):FireServer(2)
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Replay"):FireServer()
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CloseVictoryFrame"):FireServer()
+
+ for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Stats.TeamUnitFrame:GetChildren()) do 
+  if v:IsA("ImageButton") and v:FindFirstChild("UnitName") then 
+
+local args = {
+    v.UnitName.Text,
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0,-2,0),
+    v.Stats:GetAttribute("RealName")
 }
-
-local Options = Fluent.Options
-
-do
-
-
-    local Fish = Tabs.Main:AddToggle("FishToggle", {Title = "Auto Fish", Default = false })
-    local SwordInRock = Tabs.Main:AddToggle("SwordInRockToggle", {Title = "Auto Sword In Rock", Default = false })
-    local AutoClaimQuests = Tabs.Main:AddToggle("AutoClaimQuestsToggle", {Title = "Auto Claim Quests", Default = false })
-    local AutoPVP = Tabs.Main:AddToggle("AutoPVPToggle", {Title = "Auto PVP", Default = false })
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("CreateUnits"):FireServer(unpack(args))
+end 
+end
 
 
-
-    local AutoPotions = Tabs.Main:AddDropdown("PotionDP", {
-        Title = "Select Potions To:",
-        Description = "You can select multiple potions.",
-        Values = potions,
-        Multi = true,
-        Default = {""},
-    })
-
-
-    local AutoUseSpecificPotion = Tabs.Main:AddToggle("AutoUseSpecificPotionToggle", {Title = "Auto Use Selected Potion(s)", Default = false })
-    local AutoUseAllPotions = Tabs.Main:AddToggle("AutoUseAllPotionToggle", {Title = "Auto Use All Potions", Default = false })
-
-
+ for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Notification.NotificationFrame:GetChildren()) do 
+     if v:IsA("TextLabel") then 
+         v:Destroy() 
+     end 
+    end 
     
-    Fish:OnChanged(function()
-        while Options.FishToggle.Value == true do  
-            task.wait(.1)
-                   pcall(function()
-                    if workspace.Environment.Fishing.Rod.Rill.Attachment.ProximityPrompt.ObjectText == "NOW!" then
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Environment.Fishing.Rod.Rill.CFrame
-                    local proximityPrompt = workspace.Environment.Fishing.Rod.Rill.Attachment.ProximityPrompt
-                    proximityPrompt:InputHoldBegin()
-                    proximityPrompt:InputHoldEnd()
-                    end    
-                   end)
-                   if  Options.FishToggle.Value == false then 
-                       break 
-                     end 
-                   end 
-           
-    end)
+end 
+end)
 
+task.spawn(function()
+     while task.wait(.5) do 
+ local upgradedBulme = false
 
+    -- First, upgrade "Bulme" to max if not already at max upgrade
+    for i, v in pairs(workspace.Unit[game.Players.LocalPlayer.Name]:GetChildren()) do
+        if v:IsA("Model") and v:FindFirstChild('Stats') then
+            if v.Name == "Bulme" and v.Stats:GetAttribute("Upgrade") ~= v.Stats:GetAttribute("MaxUpgrade") then
+                local args = {v}
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Upgrades"):FireServer(unpack(args))
+            elseif v.Name == "Bulme" and v.Stats:GetAttribute("Upgrade") == v.Stats:GetAttribute("MaxUpgrade") then
+                upgradedBulme = true 
+        end 
 
-    SwordInRock:OnChanged(function()
-        while Options.SwordInRockToggle.Value == true do  
-            task.wait(.1)
-                   pcall(function()
-                    if workspace.Environment.SwordInRock.Rock.Attachment.ProximityPrompt == "NOW!" then 
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(31.2233238, 2.52888727, 44.5766983, 0.984812498, 0, 0.173621148, 0, 1, 0, -0.173621148, 0, 0.984812498)
-                        local proximityPrompt = workspace.Environment.Fishing.Rod.Rill.Attachment.ProximityPrompt
-                        proximityPrompt:InputHoldBegin()
-                        proximityPrompt:InputHoldEnd()
-                    end                     
-                   end)
-                   if  Options.SwordInRockToggle.Value == false then 
-                       break 
-                     end 
-                   end 
-           
-    end)
-
-
-    AutoPotions:OnChanged(function(Value)
-        getgenv().PotionFR = {}
-        for i, v in pairs(Value) do
-            table.insert(getgenv().PotionFR, i)  -- Insert the key (i) into the table
         end
-        print("Potions changed:", table.concat(getgenv().PotionFR, ","))
-        
-    end)
-    
-    AutoUseSpecificPotion:OnChanged(function()
-        while Options.AutoUseSpecificPotionToggle.Value == true do  
-            task.wait(1)
-             pcall(function()
-    for _,actualname in pairs(getgenv().PotionFR ) do
-        local args = {
-            [1] = actualname,
-            [2] = 1
-        }
-        
-        game:GetService("ReplicatedStorage"):WaitForChild("Knit"):WaitForChild("Services"):WaitForChild("PotionInventoryService"):WaitForChild("RF"):WaitForChild("ConsumePotion"):InvokeServer(unpack(args))
-             end
-            end)
+    end
+
+    -- Then, upgrade other units if Bulme was upgraded
+    if upgradedBulme then
+        for i, v in pairs(workspace.Unit[game.Players.LocalPlayer.Name]:GetChildren()) do
+            if v:IsA("Model") and v:FindFirstChild('Stats') and v.Stats:GetAttribute("Upgrade") ~= v.Stats:GetAttribute("MaxUpgrade") then
+                local args = {v}
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Upgrades"):FireServer(unpack(args))
+            end
         end
-    end)
-
-
-    
-    AutoUseAllPotions:OnChanged(function()
-        while Options.AutoUseAllPotionToggle.Value == true do  
-            task.wait(.1)
-            local potions = {}
-
-            -- Iterate through the potion inventory items
-            for _, v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.PotionInventory.Items:GetChildren()) do
-                if v:IsA("Frame") then
-                    local text = v.Name
-                    local value = string.match(text, "([^:]+):") -- Extract value before the colon
-                    if value then
-                        print("Value before colon: ", value)
-                        table.insert(potions, value) -- Store the value in the potions table
-                    end
-                end
-            end
-            
-            -- Consume each potion collected
-            for _, potionName in pairs(potions) do
-                local args = {
-                    [1] = potionName, -- Use potionName directly
-                    [2] = 1 -- Quantity to consume
-                }
-            
-                -- Ensure ReplicatedStorage is correctly referenced
-                local replicatedStorage = game:GetService("ReplicatedStorage")
-                local potionInventoryService = replicatedStorage:WaitForChild("Knit"):WaitForChild("Services"):WaitForChild("PotionInventoryService")
-                
-                -- Invoke the remote function to consume the potion
-                local success, errorMessage = pcall(function()
-                    potionInventoryService:WaitForChild("RF"):WaitForChild("ConsumePotion"):InvokeServer(unpack(args))
-                end)
-            
-                -- Handle errors
-                if not success then
-                    print("Error consuming potion: ", errorMessage)
-                else
-                    print("Successfully consumed potion: ", potionName)
-                end
-            end
-            
-                   if  Options.AutoUseAllPotionToggle.Value == false then 
-                       break 
-                     end 
-                   end 
-           
-    end)
-
-
-AutoPVP:OnChanged(function()
-    while Options.AutoPVPToggle.Value == true do  
-        task.wait(1)
-         pcall(function()
-for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.PVP.Attack.OpponentsList:GetChildren()) do 
-    if v:IsA('Frame') then
-        local args = {
-            [1] = v.Name
-        }
-        
-        game:GetService("ReplicatedStorage"):WaitForChild("Knit"):WaitForChild("Services"):WaitForChild("PVPDungeonService"):WaitForChild("RF"):WaitForChild("FightPlayerDungeon"):InvokeServer(unpack(args))
-        
     end
 end 
 end)
-end
-end)
-
-
-
-
-end -- end for UI
-
-SaveManager:SetLibrary(Fluent)
-InterfaceManager:SetLibrary(Fluent)
-SaveManager:IgnoreThemeSettings()
-SaveManager:SetIgnoreIndexes({})
-InterfaceManager:SetFolder("L-HUBAutoSaveFunctions")
-SaveManager:SetFolder("L-HUBAutoSaveFunctions")
-InterfaceManager:BuildInterfaceSection(Tabs.Settings)
-SaveManager:BuildConfigSection(Tabs.Settings)
-Window:SelectTab(1)
-SaveManager:LoadAutoloadConfig()
-
